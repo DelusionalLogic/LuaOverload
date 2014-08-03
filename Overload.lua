@@ -9,6 +9,7 @@ local deviations = {
 	},
 	["number"] = {
 		"number",
+		"num",
 		"int",
 		"float",
 		"double",
@@ -21,16 +22,19 @@ local deviations = {
 	},
 	["string"] = {
 		"string",
+		"str",
 		"char",
 		"byte",
 	},
 	["table"] = {
 		"table",
+		"tbl",
 		"array",
 		"list",
 	},
 	["function"] = {
 		"function",
+		"func",
 		"method",
 	},
 	["thread"] = {
@@ -43,21 +47,24 @@ local deviations = {
 	}
 }
 
-local function typesEqual(type, identifier)
-	if deviations[type] == nil then
-		error("Type is not lua type: " .. type)
+local function typesEqual(typeName, identifier)
+	if deviations[typeName] == nil then
+		error("Type is not lua type: " .. typeName)
 	end
+	if type(identifier) == "string" then identifier = {identifier} end
 
-	for _,v in ipairs(deviations[type]) do
-		if v:lower() == identifier:lower() then
-			return true
+	for _,v in ipairs(deviations[typeName]) do
+		for _,v2 in ipairs(identifier) do
+			if v:lower() == v2:lower() then
+				return true
+			end
 		end
 	end
 	return false
 end
 
 function checkParameters(parameterList, defaultList)
-	if debug.getinfo(2) == nil then
+	if debug.getinfo(2, "f") == nil then
 		error("Called from outside function")
 	end
 
