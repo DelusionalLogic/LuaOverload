@@ -30,7 +30,7 @@ function testFunc(a, b, c)
 end
 
 testFunc(10, "hello") --Passes the first if statement, with c set to the default value (empty table)
-testFunc(10, {}, 12345) --Passes the second if statement. Since c is nil it's allowed to be anything
+testFunc(10, {}, 12345) --Passes the second if statement. Since the type of c is not given it's allowed to be anything
 testFunc(10, "hi", "hi") --None of the checks allowed a number and 2 strings
 ```
 You will will notice that c assumed its default value of ```{}```, and that we can avoid specifying a default value for a parameter by putting nil in the defaults array.
