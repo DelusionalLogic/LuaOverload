@@ -25,7 +25,7 @@ function testFunc(a, b, c)
         print(b, c[1])
     elseif checkParameters({"number", "table", nil}) then
         --For some reason the caller switched b and c.
-        testFunc(a, c, b) --Lets just swtich them back
+        testFunc(a, c, b) --Lets just switch them back
     end
 end
 
