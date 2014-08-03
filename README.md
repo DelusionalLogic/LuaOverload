@@ -19,18 +19,19 @@ A simple example can be seen here
 require "Overload"
 
 function testFunc(a, b, c)
-	if checkParameters({"number", "string", "table"}, {nil, nil, {}}) then
-		--Since we now know the type of the parameters this is safe
-		table.insert(c, a)
-		print(b, c[1])
-	elseif checkParameters({"number", "table", "string"}, {nil, nil, {}}) then
-		--For some reason the caller switched b and c.
-		testFunc(a, c, b) --Lets just swtich them back
-	end
+    if checkParameters({"number", nil, "table"}, {nil, nil, {}}) then
+        --Since we now know the type of the parameters this is safe
+        table.insert(c, a)
+        print(b, c[1])
+    elseif checkParameters({"number", "table", nil}) then
+        --For some reason the caller switched b and c.
+        testFunc(a, c, b) --Lets just swtich them back
+    end
 end
 
-testFunc(10, "hello")
-testFunc(10, 100)
+testFunc(10, "hello") --Passes the first if statement, with c set to the default value (empty table)
+testFunc(10, {}, 12345) --Passes the second if statement. Since c is nil it's allowed to be anything
+testFunc(10, "hi", "hi") --None of the checks allowed a number and 2 strings
 ```
 You will will notice that c assumed its default value of ```{}```, and that we can avoid specifying a default value for a parameter by putting nil in the defaults array.
 
