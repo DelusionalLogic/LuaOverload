@@ -7,11 +7,11 @@ Usage
 ------------
 
 Simply ```require "Overload.lua"``` at the start of any lua script you want to use it in.
-Whenever you define a function you want "type safe" (kinda) simply call ```checkParameters``` as the very first thing in the function.
+Whenever you define a function you want "type safe" (kinda) simply call ```checkParameters``` as the very first thing in the function, checking it's return value whether the parameters satisfy the requirements.
 
 The function takes 2 parameters. The first is a table containing the respective expected types of the parameters. This one is mandatory. The second is a list of respective default values to be used if the parameter value is nil. This parameter is mandatory.
 
-The function will return true if all parameters matched the given type, or if there was no type given for the parameter. False otherwise.
+The function will return true if all parameters matched the given type, or if there was no type given for the parameter. false otherwise. This means the calls can be used in an ifelse chain to achieve results close to parameter overloading.
 
 A simple example can be seen here
 
@@ -23,6 +23,9 @@ function testFunc(a, b, c)
 		--Since we now know the type of the parameters this is safe
 		table.insert(c, a)
 		print(b, c[1])
+	elseif checkParameters({"number", "table", "string"}, {nil, nil, {}}) then
+		--For some reason the caller switched b and c.
+		testFunc(a, c, b) --Lets just swtich them back
 	end
 end
 
