@@ -16,6 +16,8 @@ The function will return true if all parameters matched the given type, or if th
 A simple example can be seen here
 
 ```
+require "Overload"
+
 function testFunc(a, b, c)
 	if checkParameters({"number", "string", "table"}, {nil, nil, {}}) then
 		--Since we now know the type of the parameters this is safe
